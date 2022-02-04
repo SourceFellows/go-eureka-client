@@ -2,6 +2,8 @@ package eureka
 
 import (
 	"encoding/json"
+	"fmt"
+	"net/http"
 	"strings"
 )
 
@@ -16,6 +18,14 @@ func (c *Client) RegisterInstance(appId string, instanceInfo *InstanceInfo) erro
 		return err
 	}
 
-	_, err = c.Post(path, body)
-	return err
+	response, err := c.Post(path, body)
+	if err != nil {
+		return nil
+	}
+
+	if response.StatusCode != http.StatusOK {
+		return fmt.Errorf("could not register instance. response %v", string(response.Body))
+	}
+
+	return nil
 }
