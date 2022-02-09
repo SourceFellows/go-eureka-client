@@ -20,7 +20,7 @@ func (c *Client) RegisterInstance(appId string, instanceInfo *InstanceInfo) erro
 
 	response, err := c.Post(path, body)
 	if err != nil {
-		return nil
+		return fmt.Errorf("could not register instance. %v", err)
 	}
 
 	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusNoContent {
