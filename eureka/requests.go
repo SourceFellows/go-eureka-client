@@ -148,7 +148,7 @@ func NewInstanceInfo(hostName, app, ip string, port int, ttl uint, isSsl bool) *
 // getCancelable issues a cancelable GET request
 func (c *Client) getCancelable(endpoint string,
 	cancel <-chan bool) (*RawResponse, error) {
-	logrus.Debugf("get %s [%s]", endpoint, c.Cluster.Leader)
+	logrus.Tracef("get %s [%s]", endpoint, c.Cluster.Leader)
 	p := endpoint
 
 	req := NewRawRequest("GET", p, nil, cancel)
@@ -169,7 +169,7 @@ func (c *Client) Get(endpoint string) (*RawResponse, error) {
 // put issues a PUT request
 func (c *Client) Put(endpoint string, body []byte) (*RawResponse, error) {
 
-	logrus.Debugf("put %s, %s, [%s]", endpoint, body, c.Cluster.Leader)
+	logrus.Tracef("put %s, %s, [%s]", endpoint, body, c.Cluster.Leader)
 	p := endpoint
 
 	req := NewRawRequest("PUT", p, body, nil)
@@ -184,7 +184,7 @@ func (c *Client) Put(endpoint string, body []byte) (*RawResponse, error) {
 
 // post issues a POST request
 func (c *Client) Post(endpoint string, body []byte) (*RawResponse, error) {
-	logrus.Debugf("post %s, %s, [%s]", endpoint, body, c.Cluster.Leader)
+	logrus.Tracef("post %s, %s, [%s]", endpoint, body, c.Cluster.Leader)
 	p := endpoint
 
 	req := NewRawRequest("POST", p, body, nil)
@@ -199,7 +199,7 @@ func (c *Client) Post(endpoint string, body []byte) (*RawResponse, error) {
 
 // delete issues a DELETE request
 func (c *Client) Delete(endpoint string) (*RawResponse, error) {
-	logrus.Debugf("delete %s [%s]", endpoint, c.Cluster.Leader)
+	logrus.Tracef("delete %s [%s]", endpoint, c.Cluster.Leader)
 	p := endpoint
 
 	req := NewRawRequest("DELETE", p, nil, nil)
@@ -277,11 +277,11 @@ func (c *Client) SendRequest(rr *RawRequest) (*RawResponse, error) {
 			}
 		}
 
-		logrus.Debugf("Connecting to eureka: attempt %d for %s", attempt+1, rr.relativePath)
+		logrus.Tracef("Connecting to eureka: attempt %d for %s", attempt+1, rr.relativePath)
 
 		httpPath = c.getHttpPath(false, rr.relativePath)
 
-		logrus.Debugf("send.request.to %s | method %s", httpPath, rr.method)
+		logrus.Tracef("send.request.to %s | method %s", httpPath, rr.method)
 
 		req, err := func() (*http.Request, error) {
 			reqLock.Lock()

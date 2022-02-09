@@ -1,6 +1,7 @@
 package eureka
 
 import (
+	"github.com/sirupsen/logrus"
 	"net/http"
 	"strings"
 )
@@ -17,5 +18,10 @@ func (c *Client) SendHeartbeat(appId, instanceId string) error {
 		return newError(ErrCodeInstanceNotFound,
 			"Instance resource not found when sending heartbeat", 0)
 	}
+
+	logrus.WithField("status", resp.StatusCode).
+		WithField("body", string(resp.Body)).
+		Trace("heartbeat sent")
+
 	return nil
 }
